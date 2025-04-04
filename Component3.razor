@@ -1,0 +1,21 @@
+@using RecipeGeneratorApp
+@using RecipeGeneratorApp.Models
+
+<select id="cuisineFilter" class="form-select" @bind="selectedCuisine">
+    <option value="">All</option>
+    @foreach (var cuisine in cuisines)
+    {
+        <option value="@cuisine">@cuisine</option>
+    }
+</select>
+
+@code {
+    private string selectedCuisine = string.Empty;
+    private List<string> cuisines = new();
+
+    private void OnCuisineChanged(ChangeEventArgs args)
+    {
+        selectedCuisine = args.Value?.ToString() ?? string.Empty;
+        // Add logic to filter recipes based on selectedCuisine
+    }
+}

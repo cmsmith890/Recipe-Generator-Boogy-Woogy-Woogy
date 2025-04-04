@@ -1,0 +1,11 @@
+@using RecipeGeneratorApp.Services
+@using RecipeGeneratorApp.Models
+
+recipe.Instructions@using RecipeGeneratorApp.Models
+
+<p>@recipe.Instructions</p>
+
+@code {
+    [Parameter]
+    public Recipe recipe { get; set; } = new Recipe();
+}

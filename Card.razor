@@ -1,0 +1,29 @@
+﻿@using RecipeGeneratorApp.Models
+@using Microsoft.AspNetCore.Components
+
+<div class="card mb-3">
+    <div class="card-body">
+        <Component10 />
+
+        <button class="btn btn-link p-0" @onclick="ToggleDetails">
+            @(showDetails ? "Hide Details" : "Show Details")
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Recipe Recipe { get; set; }
+
+    public Card(Recipe recipe)
+    {
+        Recipe = recipe;
+    }
+
+
+    private bool showDetails = false;
+
+    private void ToggleDetails()
+    {
+        showDetails = !showDetails;
+    }
+}

@@ -1,0 +1,27 @@
+@using RecipeGeneratorApp
+@using RecipeGeneratorApp.Models
+
+<select id="cuisineFilter" class="form-select" @bind="selectedCuisine">
+    <option value="">All</option>
+    @foreach (var cuisine in cuisines)
+    {
+        <option value="@cuisine">@cuisine</option>
+    }
+</select>
+
+@code {
+    private string selectedCuisine = string.Empty;
+    private List<string> cuisines = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Assuming you have a method to fetch cuisines
+        cuisines = await FetchCuisinesAsync();
+    }
+
+    private async Task<List<string>> FetchCuisinesAsync()
+    {
+        // Replace with actual logic to fetch cuisines
+        return await Task.FromResult(new List<string> { "Italian", "Chinese", "Mexican" });
+    }
+}

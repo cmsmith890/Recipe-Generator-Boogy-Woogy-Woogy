@@ -1,0 +1,13 @@
+@using RecipeGeneratorApp
+@using RecipeGeneratorApp.Models
+
+<Component18 />
+@code {
+    private List<Recipe> recipes = new();
+    private List<Recipe> filteredRecipes = new();
+    private List<string> cuisines = new();
+
+    public Component19(string selectedCuisine) => this.selectedCuisine = selectedCuisine ?? throw new ArgumentNullException(nameof(selectedCuisine));
+
+    private string selectedCuisine = string.Empty;
+}

@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Components
+
+<select class="form-select" @onchange="OnCuisineChanged">
+    <option value="">All</option>
+    @foreach (var cuisine in Cuisines)
+    {
+        <option value="@cuisine" selected="@(cuisine == SelectedCuisine)">
+            @cuisine
+        </option>
+    }
+</select>
+
+@code {
+    [Parameter] public List<string> Cuisines { get; set; } = new();
+    [Parameter] public string SelectedCuisine { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> SelectedCuisineChanged { get; set; }
+
+    private async Task OnCuisineChanged(ChangeEventArgs args)
+    {
+        var newValue = args.Value?.ToString() ?? string.Empty;
+        SelectedCuisine = newValue;
+        await SelectedCuisineChanged.InvokeAsync(newValue);
+    }
+}

@@ -1,0 +1,31 @@
+@using RecipeGeneratorApp.Models
+@using Microsoft.AspNetCore.Components
+
+<select class="form-select" @onchange="OnCuisineChanged">
+    <option value="">All</option>
+    @foreach (var cuisine in cuisines)
+    {
+        <option value="@cuisine" selected="@(cuisine == selectedCuisine)">
+            @cuisine
+        </option>
+    }
+</select>
+
+@code {
+    [Parameter] public EventCallback<string> OnCuisineFilterChanged { get; set; }
+
+    private List<string> cuisines = new();
+    private string selectedCuisine = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        // Example hardcoded list, replace with dynamic loading if needed
+        cuisines = new List<string> { "Italian", "Mexican", "American", "Indian", "Chinese" };
+    }
+
+    private async Task OnCuisineChanged(ChangeEventArgs args)
+    {
+        selectedCuisine = args.Value?.ToString() ?? string.Empty;
+        await OnCuisineFilterChanged.InvokeAsync(selectedCuisine);
+    }
+}

@@ -1,0 +1,71 @@
+@page "/recipe-generator"
+@using RecipeGeneratorApp
+@inject RecipeService RecipeService
+
+<h3>Recipe Generator</h3>
+
+@if (loadError)
+{
+	<p class="text-danger">There was a problem loading recipes. Please try again later.</p>
+}
+else if (recipes == null)
+{
+	<div class="spinner-border text-primary" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+}
+else
+{
+	<div class="mb-3">
+		<label for="cuisineFilter" class="form-label">Filter by Cuisine:</label>
+		<select id="cuisineFilter" class="form-select" @onchange="OnCuisineChanged">
+			<option value="">All</option>
+			@foreach (var cuisine in cuisines)
+			{
+				<option value="@cuisine" selected="@(cuisine == selectedCuisine)">
+					@cuisine
+				</option>
+			}
+		</select>
+	</div>
+
+	@if (filteredRecipes.Count == 0)
+	{
+		<p>No recipes match the selected cuisine.</p>
+	}
+	else
+	{
+		@foreach (var recipe in filteredRecipes)
+		{
+			<RecipeCard Recipe="recipe" />
+		}
+	}
+}
+
+@code {
+	private List<Recipe> recipes = new();
+	private List<Recipe> filteredRecipes = new();
+	private List<string> cuisines = new();
+	private string selectedCuisine = string.Empty;
+	private bool loadError = false;
+	private Task OnCuisineChanged(ChangeEventArgs args)
+	{
+		throw new NotImplementedException();
+	}    
+}
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            recipes = await RecipeService.GetRecipesAsync();
+            filteredRecipes = recipes;
+            cuisines = recipes
+                .Select(r => r.Cuisine)
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Console
